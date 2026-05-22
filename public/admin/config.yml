@@ -3,7 +3,7 @@ backend:
   repo: trainingitspec/mikron
   branch: main
   # Замініть цей URL на адресу вашого згенерованого OAuth-сервера на Vercel
-  base_url: https://mikron-oauth.vercel.app 
+  base_url: https://mikron-auth.vercel.app 
   auth_endpoint: oauth/auth
 
 media_folder: "public/uploads"
