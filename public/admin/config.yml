@@ -1,6 +1,10 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: trainingitspec/mikron
   branch: main
+  # Замініть цей URL на адресу вашого згенерованого OAuth-сервера на Vercel
+  base_url: https://mikron-oauth.vercel.app 
+  auth_endpoint: oauth/auth
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
@@ -15,7 +19,7 @@ collections:
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Заголовок", name: "title", widget: "string" }
-      - { label: "Дата публікації", name: "date", widget: "datetime" }
+      - { label: "Дата публікації", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: "Автор", name: "author", widget: "string" }
       - { label: "Обкладинка", name: "featured_image", widget: "image", required: false }
       - { label: "Короткий опис", name: "excerpt", widget: "text" }
@@ -24,6 +28,7 @@ collections:
   - name: "products"
     label: "Продукти"
     folder: "content/products"
+    format: "yaml" # Зберігатиме суто як конфіг-файл без markdown
     create: true
     slug: "{{slug}}"
     fields:
