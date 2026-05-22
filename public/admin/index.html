@@ -4,11 +4,74 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mikron — Адмінпанель</title>
-  </head>
+</head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <script>
+    // Зашиваємо конфіг прямо в код сторінки, щоб Vercel його не загубив
+    CMS.init({
+      config: {
+        backend: {
+          name: "github",
+          repo: "trainingitspec/mikron",
+          branch: "main",
+          base_url: "https://mikron-auth.vercel.app", // Ваш точний OAuth сервер
+          auth_endpoint: "oauth/auth"
+        },
+        load_config_file: false, // Наказуємо CMS НЕ шукати зовнішній файл config.yml
+        
+        media_folder: "public/uploads",
+        public_folder: "/uploads",
+        locale: "uk",
+        
+        collections: [
+          {
+            name: "blog",
+            label: "Блог",
+            folder: "content/blog",
+            create: true,
+            slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+            fields: [
+              { label: "Заголовок", name: "title", widget: "string" },
+              { label: "Дата публікації", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false },
+              { label: "Автор", name: "author", widget: "string" },
+              { label: "Обкладинка", name: "featured_image", widget: "image", required: false },
+              { label: "Короткий опис", name: "excerpt", widget: "text" },
+              { label: "Текст", name: "body", widget: "markdown" }
+            ]
+          },
+          {
+            name: "products",
+            label: "Продукти",
+            folder: "content/products",
+            format: "yaml",
+            create: true,
+            slug: "{{slug}}",
+            fields: [
+              { label: "Назва", name: "name", widget: "string" },
+              { label: "Ціна (UAH)", name: "price", widget: "number" },
+              { label: "Опис", name: "description", widget: "text" },
+              { label: "Зображення", name: "image", widget: "image" },
+              {
+                label: "Категорія",
+                name: "category",
+                widget: "select",
+                options: [
+                  { label: "Операційні системи", value: "Операційні системи" },
+                  { label: "Аналітика", value: "Аналітика" },
+                  { label: "Безпека", value: "Безпека" },
+                  { label: "DevOps", value: "DevOps" }
+                ]
+              },
+              { label: "Рекомендований", name: "featured", widget: "boolean", default: false }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
-
 
 
