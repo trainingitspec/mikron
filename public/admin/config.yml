@@ -4,7 +4,7 @@ backend:
   branch: main
   # Замініть цей URL на адресу вашого згенерованого OAuth-сервера на Vercel
   base_url: https://mikron-auth.vercel.app 
-  auth_endpoint: oauth/auth
+  auth_endpoint: auth
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
