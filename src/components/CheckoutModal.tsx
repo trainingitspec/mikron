@@ -78,7 +78,7 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
 
         {step === "contact" && (
           <form onSubmit={handleContactSubmit} className="p-8">
-            <h3 className="font-serif text-2xl text-white uppercase tracking-[-0.5px] mb-2">
+            <h3 className="font-heading text-2xl text-white uppercase tracking-[-0.5px] mb-2">
               Оформлення замовлення
             </h3>
             <p className="text-soft text-sm mb-8">Крок 1 з 2 — Контактні дані</p>
@@ -131,7 +131,7 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
 
         {step === "payment" && (
           <form onSubmit={handlePaymentSubmit} className="p-8">
-            <h3 className="font-serif text-2xl text-white uppercase tracking-[-0.5px] mb-2">
+            <h3 className="font-heading text-2xl text-white uppercase tracking-[-0.5px] mb-2">
               Оплата карткою
             </h3>
             <p className="text-soft text-sm mb-8">Крок 2 з 2 — Дані картки</p>
@@ -228,7 +228,7 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
             <div className="w-16 h-16 rounded-full bg-[#00ff8822] flex items-center justify-center mb-6">
               <CheckCircle size={32} className="text-[#00ff88]" />
             </div>
-            <h3 className="font-serif text-2xl text-white uppercase tracking-[-0.5px] mb-3">
+            <h3 className="font-heading text-2xl text-white uppercase tracking-[-0.5px] mb-3">
               Оплата успішна!
             </h3>
             <p className="text-soft text-sm mb-2">

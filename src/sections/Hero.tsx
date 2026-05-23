@@ -71,7 +71,7 @@ export default function Hero() {
       >
         <h1
           ref={titleRef}
-          className="font-serif text-white uppercase opacity-0 translate-y-5"
+          className="font-heading text-white uppercase opacity-0 translate-y-5"
           style={{
             fontSize: "clamp(48px, 8vw, 84px)",
             letterSpacing: "-1.5px",

@@ -60,7 +60,7 @@ export default function Blog() {
           БЛОГ
         </span>
         <h2
-          className="font-serif text-white uppercase mt-2"
+          className="font-heading text-white uppercase mt-2"
           style={{
             fontSize: "clamp(32px, 4vw, 48px)",
             letterSpacing: "-0.5px",
@@ -88,7 +88,7 @@ export default function Blog() {
                 {featured.date}
               </span>
               <h3
-                className="font-serif text-white mt-2 transition-colors duration-300 group-hover:text-gold"
+                className="font-heading text-white mt-2 transition-colors duration-300 group-hover:text-gold"
                 style={{
                   fontSize: "clamp(24px, 2.5vw, 32px)",
                   fontWeight: 400,
@@ -127,7 +127,7 @@ export default function Blog() {
                   {post.date}
                 </span>
                 <h4
-                  className="font-serif text-white mt-1 transition-colors duration-300 group-hover:text-gold line-clamp-2"
+                  className="font-heading text-white mt-1 transition-colors duration-300 group-hover:text-gold line-clamp-2"
                   style={{ fontSize: "20px", fontWeight: 400, lineHeight: 1.3 }}
                 >
                   {post.title}

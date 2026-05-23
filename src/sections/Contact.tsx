@@ -75,7 +75,7 @@ export default function Contact() {
               КОНТАКТИ
             </span>
             <h2
-              className="font-serif text-white uppercase mt-2"
+              className="font-heading text-white uppercase mt-2"
               style={{
                 fontSize: "clamp(32px, 4vw, 48px)",
                 letterSpacing: "-0.5px",
@@ -132,7 +132,7 @@ export default function Contact() {
                 <div className="w-16 h-16 rounded-full bg-[#00ff8822] flex items-center justify-center mb-4">
                   <Send size={28} className="text-[#00ff88]" />
                 </div>
-                <h3 className="font-serif text-2xl text-white">Повідомлення надіслано!</h3>
+                <h3 className="font-heading text-2xl text-white">Повідомлення надіслано!</h3>
                 <p className="text-soft mt-2">Ми зв&apos;яжемося з вами найближчим часом.</p>
               </div>
             ) : (

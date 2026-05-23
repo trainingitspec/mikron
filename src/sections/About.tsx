@@ -77,7 +77,7 @@ export default function About() {
               ПРО КОМПАНІЮ
             </span>
             <h2
-              className="font-serif text-white uppercase mt-6"
+              className="font-heading text-white uppercase mt-6"
               style={{
                 fontSize: "clamp(32px, 4vw, 48px)",
                 letterSpacing: "-0.5px",
@@ -116,7 +116,7 @@ export default function About() {
                   }`}
                 >
                   <div
-                    className="font-serif text-gold"
+                    className="font-heading text-gold"
                     style={{
                       fontSize: "clamp(28px, 3vw, 48px)",
                       fontWeight: 400,

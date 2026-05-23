@@ -34,7 +34,7 @@ export default function CartSidebar() {
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-charcoal">
-          <h2 className="font-serif text-2xl text-white uppercase tracking-[-0.5px]">
+          <h2 className="font-heading text-white uppercase mt-2">
             Ваш кошик
           </h2>
           <button
@@ -125,7 +125,7 @@ export default function CartSidebar() {
             </button>
             <button
               onClick={closeCart}
-              className="w-full text-center text-soft text-sm hover:text-gold transition-colors py-2"
+              className="font-heading text-white mt-2 transition-colors duration-300 group-hover:text-gold"
             >
               Продовжити покупки
             </button>

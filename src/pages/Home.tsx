@@ -1,20 +1,16 @@
-import { useState } from 'react'
-import '../App.css'
+import Hero from "@/sections/Hero";
+import About from "@/sections/About";
+import Products from "@/sections/Products";
+import Contact from "@/sections/Contact";
 
 export default function Home() {
-  const [count, setCount] = useState(0)
-
+  console.log('Home component rendered');
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-    </>
-  )
+    <main>
+      <Hero />
+      <About />
+      <Products />
+      <Contact />
+    </main>
+  );
 }

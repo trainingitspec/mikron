@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { label: "Компанія", href: "#about" },
   { label: "Продукти", href: "#products" },
-  { label: "Блог", href: "#blog" },
+  { label: "Блог", href: "/blog" },
   { label: "Контакти", href: "#contact" },
 ];
 
@@ -65,18 +66,32 @@ export default function Navigation() {
         {/* Nav Links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className={`text-xs font-medium uppercase tracking-[1.5px] transition-colors duration-300 ${
-                activeSection === link.href.slice(1)
-                  ? "text-gold"
-                  : "text-soft hover:text-white"
-              }`}
-            >
-              {link.label}
-            </a>
+            link.href.startsWith("#") ? (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className={`text-xs font-medium uppercase tracking-[1.5px] transition-colors duration-300 ${
+                  activeSection === link.href.slice(1)
+                    ? "text-gold"
+                    : "text-soft hover:text-white"
+                }`}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                to={link.href}
+                className={`text-xs font-medium uppercase tracking-[1.5px] transition-colors duration-300 ${
+                  activeSection === link.href.slice(1)
+                    ? "text-gold"
+                    : "text-soft hover:text-white"
+                }`}
+              >
+                {link.label}
+              </Link>
+            )
           ))}
         </div>
 
