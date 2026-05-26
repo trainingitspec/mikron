@@ -55,7 +55,7 @@ module.exports = {
         },
         // Brand color mapping
         brand: {
-          dark: "#202940",   // Dark Blue/Gray
+          dark: "#1f1f1dff",   // Dark Blue/Gray
           medium: "#4B4038", // Dark Greyish Brown
           light: "#9A8678",  // Muted Khaki/Brown
           cream: "#CAAA98",  // Light Warm Sand/Beige
@@ -79,8 +79,8 @@ module.exports = {
           DEFAULT: "#08080C",
         },
         warm: {
-          black: "#202940",   // Dark Blue/Gray cards
-          DEFAULT: "#202940",
+          black: "#1f1f1dff",   // Dark Blue/Gray cards
+          DEFAULT: "#1f1f1dff",
         },
         charcoal: "#4B4038",  // Dark Greyish Brown borders
         soft: "#9A8678",      // Muted Khaki/Brown texts

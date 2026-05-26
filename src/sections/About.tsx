@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLanguage } from "@/context/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function About() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -55,16 +57,16 @@ export default function About() {
   }, []);
 
   const stats = [
-    { value: "150+", label: "Проєктів реалізовано" },
-    { value: "50+", label: "Країн світу" },
-    { value: "8", label: "Років на ринку" },
+    { value: "150+", labelKey: "about.stat.projects" },
+    { value: "50+", labelKey: "about.stat.countries" },
+    { value: "8", labelKey: "about.stat.experience" },
   ];
 
   return (
     <section
       id="about"
       ref={sectionRef}
-      className="bg-deep-black"
+      className="bg-[#08080C]"
       style={{ padding: "120px 0" }}
     >
       <div className="max-w-[1400px] mx-auto px-6">
@@ -72,21 +74,20 @@ export default function About() {
           {/* Left Column */}
           <div ref={leftRef}>
             <span
-              className="text-gold uppercase tracking-[1.5px] font-sans text-[11px] font-medium"
+              className="text-gold uppercase tracking-[1.5px] font-sans text-[11px] font-semibold"
             >
-              ПРО КОМПАНІЮ
+              {t("about.badge")}
             </span>
             <h2
               className="font-heading text-white uppercase mt-6"
               style={{
-                fontSize: "clamp(32px, 4vw, 48px)",
+                fontSize: "clamp(26px, 3.5vw, 42px)",
                 letterSpacing: "-0.5px",
                 lineHeight: 1.15,
                 fontWeight: 400,
               }}
             >
-              Ми створюємо програмне забезпечення, яке трансформує бізнеси та
-              визначає технологічні стандарти завтрашнього дня
+              {t("about.title")}
             </h2>
           </div>
 
@@ -96,17 +97,19 @@ export default function About() {
               className="text-soft font-sans text-[15px] leading-relaxed"
               style={{ lineHeight: 1.6 }}
             >
-              Mikron — це команда інженерів, дизайнерів та візіонерів, об&apos;єднаних
-              спільною метою: розробляти програмні рішення, що поєднують передові
-              технології з інтуїтивною простотою. З 2018 року ми постачаємо
-              продукти для компаній по всьому світу — від стартапів до корпорацій
-              Fortune 500.
+              {t("about.desc1")}
+            </p>
+            <p
+              className="text-soft font-sans text-[15px] leading-relaxed mt-4"
+              style={{ lineHeight: 1.6 }}
+            >
+              {t("about.desc2")}
             </p>
 
             {/* Stats */}
             <div
               ref={statsRef}
-              className="flex mt-12 divide-x divide-charcoal"
+              className="flex mt-12 divide-x divide-[#4b4038]/30"
             >
               {stats.map((stat, i) => (
                 <div
@@ -126,9 +129,9 @@ export default function About() {
                     {stat.value}
                   </div>
                   <div
-                    className="text-muted-foreground uppercase tracking-[1.5px] font-sans text-[11px] font-medium mt-2"
+                    className="text-muted-foreground uppercase tracking-[1.5px] font-sans text-[10px] font-semibold mt-2"
                   >
-                    {stat.label}
+                    {t(stat.labelKey)}
                   </div>
                 </div>
               ))}

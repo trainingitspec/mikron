@@ -2,17 +2,19 @@ import { useState, useEffect } from "react";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Link } from "react-router-dom";
-
-const navLinks = [
-  { label: "Компанія", href: "#about" },
-  { label: "Продукти", href: "/products" },
-  { label: "Блог", href: "/blog" },
-  { label: "Контакти", href: "#contact" },
-];
+import { useLanguage } from "@/context/LanguageContext";
 
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState("");
   const { openCart, totalItems } = useCart();
+  const { lang, setLang, t } = useLanguage();
+
+  const navLinks = [
+    { key: "nav.company", href: "#about" },
+    { key: "nav.products", href: "/products" },
+    { key: "nav.blog", href: "/blog" },
+    { key: "nav.contact", href: "#contact" },
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -38,26 +40,19 @@ export default function Navigation() {
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
     } else {
-      // If the section doesn't exist on this page, navigate home then scroll
       window.location.href = `/${href}`;
     }
   };
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center"
-      style={{
-        background: "rgba(5, 5, 5, 0.85)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        borderBottom: "1px solid #1a1a1a",
-      }}
+      className="fixed top-0 left-0 right-0 z-50 h-16 flex items-center bg-[#08080c]/85 border-b border-[#4b4038]/30 backdrop-blur-md"
     >
       <div className="w-full max-w-[1400px] mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <a
           href="#"
-          className="text-white text-sm font-bold uppercase tracking-[4px] transition-all duration-300 hover:drop-shadow-[0_0_10px_#ffc447]"
+          className="text-white text-sm font-bold uppercase tracking-[4px] transition-all duration-300 hover:drop-shadow-[0_0_10px_#CAAA98]"
           onClick={(e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
@@ -80,7 +75,7 @@ export default function Navigation() {
                     : "text-soft hover:text-white"
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </a>
             ) : (
               <Link
@@ -92,27 +87,37 @@ export default function Navigation() {
                     : "text-soft hover:text-white"
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             )
           ))}
         </div>
 
-        {/* Cart */}
-        <button
-          onClick={openCart}
-          className="relative p-2 text-soft hover:text-gold transition-colors duration-300"
-          aria-label="Відкрити кошик"
-        >
-          <ShoppingCart size={20} />
-          {totalItems > 0 && (
-            <span
-              className="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full bg-gold text-deep-black flex items-center justify-center text-[10px] font-semibold"
-            >
-              {totalItems}
-            </span>
-          )}
-        </button>
+        {/* Language Switcher & Cart */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setLang(lang === "ua" ? "en" : "ua")}
+            className="px-2.5 py-1 rounded border border-[#4b4038] text-soft hover:text-gold hover:border-gold font-sans text-[11px] font-semibold transition-all duration-300 uppercase"
+            title={lang === "ua" ? "Switch to English" : "Переключити на українську"}
+          >
+            {lang === "ua" ? "EN" : "UA"}
+          </button>
+
+          <button
+            onClick={openCart}
+            className="relative p-2 text-soft hover:text-gold transition-colors duration-300"
+            aria-label={t("nav.cart")}
+          >
+            <ShoppingCart size={20} />
+            {totalItems > 0 && (
+              <span
+                className="absolute -top-1 -right-1 w-[18px] h-[18px] rounded-full bg-gold text-deep-black flex items-center justify-center text-[10px] font-semibold"
+              >
+                {totalItems}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
     </nav>
   );

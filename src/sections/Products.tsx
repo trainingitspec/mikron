@@ -5,18 +5,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { ArrowRight, ShoppingCart } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Операційні системи": "text-cyan border-cyan/20 bg-cyan/5",
+  "Operating Systems": "text-cyan border-cyan/20 bg-cyan/5",
   "Аналітика": "text-gold border-gold/20 bg-gold/5",
+  "Analytics": "text-gold border-gold/20 bg-gold/5",
   "Безпека": "text-magenta border-magenta/20 bg-magenta/5",
+  "Security": "text-magenta border-magenta/20 bg-magenta/5",
   "DevOps": "text-emerald-400 border-emerald-400/20 bg-emerald-400/5",
   "Інше": "text-soft border-white/5 bg-white/5",
+  "Other": "text-soft border-white/5 bg-white/5",
 };
 
 export default function Products() {
+  const { lang, t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
@@ -57,7 +63,7 @@ export default function Products() {
     <section
       id="products"
       ref={sectionRef}
-      className="bg-deep-black border-y border-white/5"
+      className="bg-[#08080C] border-y border-white/5"
       style={{ padding: "80px 0" }}
     >
       <div className="max-w-[1100px] mx-auto px-6">
@@ -66,7 +72,7 @@ export default function Products() {
         <div className="flex items-end justify-between mb-10">
           <div>
             <span className="text-gold uppercase tracking-[2px] font-sans text-[10px] font-semibold">
-              ПРОДУКТИ
+              {t("products.badge")}
             </span>
             <h2
               className="font-heading text-white uppercase mt-1"
@@ -76,14 +82,14 @@ export default function Products() {
                 fontWeight: 400,
               }}
             >
-              Ключові рішення
+              {t("products.title")}
             </h2>
           </div>
           <Link
             to="/products"
             className="inline-flex items-center gap-1.5 text-soft hover:text-gold font-sans text-[12px] uppercase tracking-[1px] transition-colors duration-300 group"
           >
-            Всі рішення
+            {t("products.all")}
             <ArrowRight
               size={13}
               className="transition-transform duration-300 group-hover:translate-x-1"
@@ -94,7 +100,11 @@ export default function Products() {
         {/* Minimal List */}
         <div ref={listRef} className="flex flex-col divide-y divide-white/5 border-t border-b border-white/5">
           {displayList.map((product) => {
-            const badgeClass = CATEGORY_COLORS[product.category] ?? CATEGORY_COLORS["Інше"];
+            const name = lang === "en" ? (product.name_en || product.name) : product.name;
+            const description = lang === "en" ? (product.description_en || product.description) : product.description;
+            const category = lang === "en" ? (product.category_en || product.category) : product.category;
+            
+            const badgeClass = CATEGORY_COLORS[category] ?? CATEGORY_COLORS["Інше"];
             const isAdded = addedId === product.id;
 
             return (
@@ -105,15 +115,15 @@ export default function Products() {
                 {/* Product Name & Category */}
                 <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-6 flex-1 min-w-0">
                   <span className={`inline-flex self-start md:self-auto px-2.5 py-0.5 rounded-full border font-sans text-[9px] uppercase tracking-[1px] font-semibold shrink-0 ${badgeClass}`}>
-                    {product.category}
+                    {category}
                   </span>
                   
                   <div className="min-w-0">
                     <h3 className="font-heading text-white text-[18px] group-hover:text-gold transition-colors duration-200">
-                      {product.name}
+                      {name}
                     </h3>
                     <p className="text-soft font-sans text-[13px] line-clamp-1 mt-0.5">
-                      {product.description}
+                      {description}
                     </p>
                   </div>
                 </div>
@@ -121,7 +131,7 @@ export default function Products() {
                 {/* Price and CTA */}
                 <div className="flex items-center justify-between md:justify-end gap-6 shrink-0 pt-2 md:pt-0 border-t border-white/[0.02] md:border-none">
                   <span className="font-sans text-white text-md font-medium">
-                    {product.price.toLocaleString("uk-UA")} ₴
+                    {product.price.toLocaleString(lang === "en" ? "en-US" : "uk-UA")} ₴
                   </span>
 
                   <button
@@ -133,7 +143,7 @@ export default function Products() {
                     }`}
                   >
                     {isAdded ? "✓" : <ShoppingCart size={11} />}
-                    {isAdded ? "Додано" : "В кошик"}
+                    {isAdded ? t("products.added") : t("products.add_to_cart")}
                   </button>
                 </div>
               </div>

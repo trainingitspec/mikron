@@ -39,12 +39,16 @@ function AppContent() {
   );
 }
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 function App() {
   return (
     <BrowserRouter>
-      <CartProvider>
-        <AppContent />
-      </CartProvider>
+      <LanguageProvider>
+        <CartProvider>
+          <AppContent />
+        </CartProvider>
+      </LanguageProvider>
     </BrowserRouter>
   );
 }
