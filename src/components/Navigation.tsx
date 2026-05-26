@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const navLinks = [
   { label: "Компанія", href: "#about" },
-  { label: "Продукти", href: "#products" },
+  { label: "Продукти", href: "/products" },
   { label: "Блог", href: "/blog" },
   { label: "Контакти", href: "#contact" },
 ];
@@ -37,6 +37,9 @@ export default function Navigation() {
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
+    } else {
+      // If the section doesn't exist on this page, navigate home then scroll
+      window.location.href = `/${href}`;
     }
   };
 

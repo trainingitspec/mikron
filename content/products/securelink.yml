@@ -1,0 +1,6 @@
+name: SecureLink
+price: 4500
+description: Корпоративний VPN з нульовим рівнем довіри (Zero Trust). Наскрізне шифрування, двофакторна автентифікація та контроль доступу на рівні мережі.
+image: /images/product-securelink.jpg
+category: Безпека
+featured: false

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { products } from "@/data/products";
@@ -143,9 +144,13 @@ export default function Products() {
 
         {/* View All */}
         <div className="text-center mt-12">
-          <span className="text-gold font-sans text-[15px] hover:text-white transition-colors cursor-pointer inline-flex items-center gap-2">
-            Переглянути всі продукти →
-          </span>
+          <Link
+            to="/products"
+            className="text-gold font-sans text-[15px] hover:text-white transition-colors inline-flex items-center gap-2 group"
+          >
+            Переглянути всі продукти
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </Link>
         </div>
       </div>
     </section>

@@ -1,0 +1,6 @@
+name: DevPulse
+price: 6200
+description: Система моніторингу CI/CD процесів у реальному часі. Відстежуйте пайплайни, алерти та метрики продуктивності команди в одному місці.
+image: /images/product-devpulse.jpg
+category: DevOps
+featured: false

@@ -1,0 +1,6 @@
+name: DataForge
+price: 8900
+description: Платформа для аналізу та візуалізації великих даних в реальному часі. Потужні дашборди, ML-інтеграція та автоматичні звіти для прийняття рішень.
+image: /images/product-dataforge.jpg
+category: Аналітика
+featured: true
