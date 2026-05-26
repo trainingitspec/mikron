@@ -6,6 +6,7 @@ import CartSidebar from "@/components/CartSidebar";
 import Footer from "@/sections/Footer";
 import Home from "@/pages/Home";
 import BlogPage from "@/pages/Blog";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 function AppContent() {
   const [loaded, setLoaded] = useState(false);
@@ -22,10 +23,12 @@ function AppContent() {
       }`}
     >
       <Navigation />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/blog" element={<BlogPage />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/blog" element={<BlogPage />} />
+        </Routes>
+      </ErrorBoundary>
       <Footer />
       <CartSidebar />
     </div>
@@ -43,3 +46,4 @@ function App() {
 }
 
 export default App;
+

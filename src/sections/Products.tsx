@@ -11,17 +11,6 @@ export default function Products() {
   const cardsRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
 
-  // Guard against empty product list – show fallback UI
-  if (!products || products.length === 0) {
-    return (
-      <section id="products" className="bg-warm-black py-20" style={{ padding: "120px 0" }}>
-        <div className="max-w-[1400px] mx-auto px-6 text-center text-white">
-          <h2 className="text-2xl font-bold">Наразі немає доступних продуктів.</h2>
-        </div>
-      </section>
-    );
-  }
-
   useEffect(() => {
     // Register plugin once – safe for SSR environments
     if (typeof window !== "undefined") {
@@ -29,7 +18,7 @@ export default function Products() {
     }
 
     const section = sectionRef.current;
-    if (!section) return;
+    if (!section || !products || products.length === 0) return;
 
     const ctx = gsap.context(() => {
       const cards = cardsRef.current?.querySelectorAll(".product-card");
@@ -50,6 +39,17 @@ export default function Products() {
 
     return () => ctx.revert();
   }, []);
+
+  // Guard against empty product list – show fallback UI
+  if (!products || products.length === 0) {
+    return (
+      <section id="products" className="bg-warm-black py-20" style={{ padding: "120px 0" }}>
+        <div className="max-w-[1400px] mx-auto px-6 text-center text-white">
+          <h2 className="text-2xl font-bold">Наразі немає доступних продуктів.</h2>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section
