@@ -6,19 +6,24 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // Наказуємо Vite розпізнавати "@" як шлях до папки "src"
       '@': resolve(__dirname, './src'),
     },
   },
   build: {
+    // Піднімаємо ліміт попередження до 600 кБ, щоб прибрати варнінг
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),       // Головний сайт
-        admin: resolve(__dirname, 'public/admin/index.html') // Ваша адмінка
-      }
-    }
-  }
+        main: resolve(__dirname, 'index.html'),
+        admin: resolve(__dirname, 'public/admin/index.html'),
+      },
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
 });
-
-
-
