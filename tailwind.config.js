@@ -55,34 +55,35 @@ module.exports = {
         },
         // Brand color mapping
         brand: {
-          dark: "#355872",   // Deep Blue
-          medium: "#7AAACE", // Medium Blue
-          light: "#9CD5FF",  // Light Blue
-          cream: "#F7F8F0",  // Off-White / Cream
+          dark: "#202940",   // Dark Blue/Gray
+          medium: "#4B4038", // Dark Greyish Brown
+          light: "#9A8678",  // Muted Khaki/Brown
+          cream: "#CAAA98",  // Light Warm Sand/Beige
+          black: "#08080C",  // Rich Black for contrast
         },
-        // Map original helper names to the new palette to seamlessly update existing styles
+        // Map original helper names to the new dark sand/blue palette
         gold: {
-          DEFAULT: "#7AAACE", // Medium Blue instead of gold
-          dim: "#7AAACE33",
-          dark: "#355872",    // Deep Blue
+          DEFAULT: "#CAAA98", // Light Beige/Sand
+          dim: "#CAAA9833",
+          dark: "#9A8678",
         },
         cyan: {
-          DEFAULT: "#9CD5FF", // Light Blue instead of cyan
-          dim: "#9CD5FF22",
+          DEFAULT: "#CAAA98",
+          dim: "#CAAA9822",
         },
         magenta: {
-          DEFAULT: "#7AAACE",
+          DEFAULT: "#9A8678",
         },
         deep: {
-          black: "#F7F8F0",   // Cream background instead of deep black
-          DEFAULT: "#F7F8F0",
+          black: "#08080C",   // Rich Black background
+          DEFAULT: "#08080C",
         },
         warm: {
-          black: "#FFFFFF",   // Pure white for card components
-          DEFAULT: "#FFFFFF",
+          black: "#202940",   // Dark Blue/Gray cards
+          DEFAULT: "#202940",
         },
-        charcoal: "#E0E5E9",  // Muted grey-blue border/divider instead of charcoal
-        soft: "#5A7285",      // Medium grey-blue text instead of soft gray
+        charcoal: "#4B4038",  // Dark Greyish Brown borders
+        soft: "#9A8678",      // Muted Khaki/Brown texts
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -93,10 +94,10 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        "neon-gold": "0 0 20px #7AAACE33, 0 0 60px #7AAACE11",
-        "neon-cyan": "0 0 15px #9CD5FF33",
-        "card": "0 8px 32px rgba(53,88,114,0.08)",
-        "deep": "0 20px 60px rgba(53,88,114,0.12)",
+        "neon-gold": "0 0 20px #CAAA9822, 0 0 60px #CAAA980a",
+        "neon-cyan": "0 0 15px #CAAA9822",
+        "card": "0 8px 32px rgba(8,8,12,0.5)",
+        "deep": "0 20px 60px rgba(8,8,12,0.7)",
       },
       keyframes: {
         "accordion-down": {
