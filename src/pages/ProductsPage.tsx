@@ -1,63 +1,8 @@
 import { useState, useMemo } from "react";
-import { load as parseYaml } from "js-yaml";
 import { ShoppingCart, SlidersHorizontal, Star, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import type { Product } from "@/data/products";
+import { products as ALL_PRODUCTS, type Product } from "@/data/products";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
-interface CMSProductRaw {
-  name?: string;
-  price?: number;
-  description?: string;
-  image?: string;
-  category?: string;
-  featured?: boolean;
-}
-
-// ─── Load YAML product files at build time ────────────────────────────────────
-const productModules = import.meta.glob("/content/products/*.yml", {
-  query: "raw",
-  eager: true,
-}) as Record<string, { default: string } | string>;
-
-// ─── Parse all products from YAML ─────────────────────────────────────────────
-function loadProducts(): Product[] {
-  const result: Product[] = [];
-
-  for (const [path, mod] of Object.entries(productModules)) {
-    const raw: string = typeof mod === "string" ? mod : mod?.default ?? "";
-    if (!raw.trim()) continue;
-
-    try {
-      const data = parseYaml(raw) as CMSProductRaw;
-      if (!data || typeof data !== "object") continue;
-
-      const slug = path.split("/").pop()?.replace(/\.ya?ml$/i, "") ?? "unknown";
-
-      result.push({
-        id: slug,
-        name: data.name?.trim() || "Без назви",
-        price: typeof data.price === "number" ? data.price : 0,
-        description: data.description?.trim() || "",
-        image: data.image?.trim() || "",
-        category: data.category?.trim() || "Інше",
-        featured: data.featured ?? false,
-      });
-    } catch (err) {
-      console.error(`Не вдалося розпарсити продукт: ${path}`, err);
-    }
-  }
-
-  // Featured first, then by name
-  return result.sort((a, b) => {
-    const aFeat = a.featured ? 1 : 0;
-    const bFeat = b.featured ? 1 : 0;
-    if (bFeat !== aFeat) return bFeat - aFeat;
-    return a.name.localeCompare(b.name, "uk");
-  });
-}
-
-const ALL_PRODUCTS = loadProducts();
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Операційні системи": "text-cyan border-cyan/30 bg-cyan/5",
