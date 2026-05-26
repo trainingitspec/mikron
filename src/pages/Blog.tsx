@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import fm from "front-matter";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -132,8 +133,9 @@ export default function BlogPage() {
         {!isLoading && posts.length > 0 && (
           <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {posts.map((post) => (
-              <article
+              <Link
                 key={post.slug}
+                to={`/blog/${post.slug}`}
                 className="group cursor-pointer rounded-xl border border-white/5 bg-white/3 p-6 transition-all duration-300 hover:border-gold/30 hover:bg-white/5 flex flex-col justify-between"
               >
                 <div>
@@ -178,7 +180,7 @@ export default function BlogPage() {
                     Читати далі →
                   </span>
                 </div>
-              </article>
+              </Link>
             ))}
           </section>
         )}

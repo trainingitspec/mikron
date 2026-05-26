@@ -6,6 +6,7 @@ import CartSidebar from "@/components/CartSidebar";
 import Footer from "@/sections/Footer";
 import Home from "@/pages/Home";
 import BlogPage from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import ProductsPage from "@/pages/ProductsPage";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
@@ -28,6 +29,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/products" element={<ProductsPage />} />
         </Routes>
       </ErrorBoundary>
