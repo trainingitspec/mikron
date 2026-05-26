@@ -53,28 +53,36 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Brand color mapping
+        brand: {
+          dark: "#355872",   // Deep Blue
+          medium: "#7AAACE", // Medium Blue
+          light: "#9CD5FF",  // Light Blue
+          cream: "#F7F8F0",  // Off-White / Cream
+        },
+        // Map original helper names to the new palette to seamlessly update existing styles
         gold: {
-          DEFAULT: "#ffc447",
-          dim: "#ffc44733",
-          dark: "#c78100",
+          DEFAULT: "#7AAACE", // Medium Blue instead of gold
+          dim: "#7AAACE33",
+          dark: "#355872",    // Deep Blue
         },
         cyan: {
-          DEFAULT: "#00f0ff",
-          dim: "#00f0ff22",
+          DEFAULT: "#9CD5FF", // Light Blue instead of cyan
+          dim: "#9CD5FF22",
         },
         magenta: {
-          DEFAULT: "#ff00a0",
+          DEFAULT: "#7AAACE",
         },
         deep: {
-          black: "#050505",
-          DEFAULT: "#050505",
+          black: "#F7F8F0",   // Cream background instead of deep black
+          DEFAULT: "#F7F8F0",
         },
         warm: {
-          black: "#121212",
-          DEFAULT: "#121212",
+          black: "#FFFFFF",   // Pure white for card components
+          DEFAULT: "#FFFFFF",
         },
-        charcoal: "#1a1a1a",
-        soft: "#8a8a8a",
+        charcoal: "#E0E5E9",  // Muted grey-blue border/divider instead of charcoal
+        soft: "#5A7285",      // Medium grey-blue text instead of soft gray
       },
       borderRadius: {
         xl: "calc(var(--radius) + 4px)",
@@ -85,10 +93,10 @@ module.exports = {
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
-        "neon-gold": "0 0 20px #ffc44733, 0 0 60px #ffc44711",
-        "neon-cyan": "0 0 15px #00f0ff33",
-        "card": "0 8px 32px rgba(0,0,0,0.4)",
-        "deep": "0 20px 60px rgba(0,0,0,0.6)",
+        "neon-gold": "0 0 20px #7AAACE33, 0 0 60px #7AAACE11",
+        "neon-cyan": "0 0 15px #9CD5FF33",
+        "card": "0 8px 32px rgba(53,88,114,0.08)",
+        "deep": "0 20px 60px rgba(53,88,114,0.12)",
       },
       keyframes: {
         "accordion-down": {
