@@ -1,6 +1,11 @@
 name: DataForge
 price: 8900
-description: Real-time big data analytics and visualization platform. Powerful dashboards, ML integration, and automated reports for data-driven decisions.
+description: Real-time big data analytics and visualization platform. Powerful
+  dashboards, ML integration, and automated reports for data-driven decisions.
 image: /images/product-dataforge.jpg
 category: Analytics
 featured: true
+seo_settings:
+  seo_title: DataForge platform analytic data
+  seo_description: Real-time big data analytics and visualization platform.
+    Dashboards, ML integration, and automated reports for data-driven decisions.
