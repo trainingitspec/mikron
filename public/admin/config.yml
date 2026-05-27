@@ -30,6 +30,15 @@ collections:
       - { label: "Обкладинка", name: "featured_image", widget: "image", required: false, i18n: false }
       - { label: "Короткий опис", name: "excerpt", widget: "text", i18n: true }
       - { label: "Текст", name: "body", widget: "markdown", i18n: true }
+      - label: "SEO Налаштування"
+        name: "seo_settings"
+        widget: "object"
+        i18n: true
+        required: false
+        fields:
+          - { label: "SEO Заголовок (Title)", name: "seo_title", widget: "string", i18n: true, required: false, pattern: ["^.{0,60}$", "Заголовок має бути не більше 60 символів"] }
+          - { label: "SEO Опис (Description)", name: "seo_description", widget: "text", i18n: true, required: false, pattern: ["^.{0,160}$", "Опис має бути не більше 160 символів"] }
+          - { label: "SEO Зображення (Open Graph Image)", name: "seo_image", widget: "image", i18n: false, required: false }
 
   - name: "products"
     label: "Продукти"
@@ -54,3 +63,12 @@ collections:
           - { label: "Безпека", value: "Безпека" }
           - { label: "DevOps", value: "DevOps" }
       - { label: "Рекомендований", name: "featured", widget: "boolean", default: false, i18n: false }
+      - label: "SEO Налаштування"
+        name: "seo_settings"
+        widget: "object"
+        i18n: true
+        required: false
+        fields:
+          - { label: "SEO Заголовок (Title)", name: "seo_title", widget: "string", i18n: true, required: false, pattern: ["^.{0,60}$", "Заголовок має бути не більше 60 символів"] }
+          - { label: "SEO Опис (Description)", name: "seo_description", widget: "text", i18n: true, required: false, pattern: ["^.{0,160}$", "Опис має бути не більше 160 символів"] }
+          - { label: "SEO Зображення (Open Graph Image)", name: "seo_image", widget: "image", i18n: false, required: false }

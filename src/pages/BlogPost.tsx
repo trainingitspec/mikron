@@ -4,6 +4,7 @@ import fm from "front-matter";
 import ReactMarkdown from "react-markdown";
 import { ArrowLeft, Calendar, User } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useSEO, type SEOSettings } from "@/hooks/useSEO";
 
 interface PostAttributes {
   title?: string;
@@ -11,6 +12,7 @@ interface PostAttributes {
   author?: string;
   excerpt?: string;
   featured_image?: string;
+  seo_settings?: SEOSettings;
 }
 
 // ─── Load markdown files at build time ───────────────────────────────────────
@@ -41,6 +43,53 @@ export default function BlogPost() {
     return false;
   });
 
+  // Extract raw content unconditionally
+  const raw: string = matchedEntry
+    ? (typeof matchedEntry[1] === "string" ? matchedEntry[1] : matchedEntry[1]?.default ?? "")
+    : "";
+
+  let title = lang === "en" ? "Untitled" : "Без назви";
+  let dateStr = "";
+  let author = lang === "en" ? "Author" : "Автор";
+  let featuredImage = "";
+  let bodyContent = "";
+  let excerpt = "";
+  let seoSettings: SEOSettings | undefined = undefined;
+
+  if (matchedEntry) {
+    try {
+      const { attributes, body } = fm<PostAttributes>(raw);
+      title = attributes.title?.trim() || (lang === "en" ? "Untitled" : "Без назви");
+      author = attributes.author?.trim() || (lang === "en" ? "Author" : "Автор");
+      featuredImage = attributes.featured_image || "";
+      bodyContent = body;
+      excerpt = attributes.excerpt || "";
+      seoSettings = attributes.seo_settings;
+
+      // Parse date
+      if (attributes.date) {
+        const d = attributes.date instanceof Date ? attributes.date : new Date(attributes.date);
+        if (!isNaN(d.getTime())) {
+          dateStr = d.toLocaleDateString(lang === "en" ? "en-US" : "uk-UA", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+        }
+      }
+    } catch (err) {
+      console.error("Помилка парсингу статті:", err);
+    }
+  }
+
+  // Hook call to dynamically inject SEO tags into document head (unconditional)
+  useSEO({
+    title: matchedEntry ? title : (lang === "en" ? "Post Not Found" : "Статтю не знайдено"),
+    description: excerpt,
+    image: featuredImage,
+    seoSettings,
+  });
+
   if (!matchedEntry) {
     return (
       <main className="min-h-screen bg-deep-black flex flex-col items-center justify-center text-center px-6">
@@ -59,37 +108,6 @@ export default function BlogPost() {
         </Link>
       </main>
     );
-  }
-
-  const [, mod] = matchedEntry;
-  const raw: string = typeof mod === "string" ? mod : mod?.default ?? "";
-
-  let title = lang === "en" ? "Untitled" : "Без назви";
-  let dateStr = "";
-  let author = lang === "en" ? "Author" : "Автор";
-  let featuredImage = "";
-  let bodyContent = "";
-
-  try {
-    const { attributes, body } = fm<PostAttributes>(raw);
-    title = attributes.title?.trim() || (lang === "en" ? "Untitled" : "Без назви");
-    author = attributes.author?.trim() || (lang === "en" ? "Author" : "Автор");
-    featuredImage = attributes.featured_image || "";
-    bodyContent = body;
-
-    // Parse date
-    if (attributes.date) {
-      const d = attributes.date instanceof Date ? attributes.date : new Date(attributes.date);
-      if (!isNaN(d.getTime())) {
-        dateStr = d.toLocaleDateString(lang === "en" ? "en-US" : "uk-UA", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-      }
-    }
-  } catch (err) {
-    console.error("Помилка парсингу статті:", err);
   }
 
   return (

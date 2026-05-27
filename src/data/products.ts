@@ -1,5 +1,11 @@
 import { load as parseYaml } from "js-yaml";
 
+export interface SEOSettings {
+  seo_title?: string;
+  seo_description?: string;
+  seo_image?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -11,6 +17,7 @@ export interface Product {
   category_en?: string;
   image?: string;
   featured?: boolean;
+  seo_settings?: SEOSettings;
 }
 
 // Static fallback products
@@ -72,6 +79,7 @@ interface CMSProductRaw {
   category?: string;
   category_en?: string;
   featured?: boolean;
+  seo_settings?: SEOSettings;
 }
 
 // Load YAML product files at build time
@@ -157,6 +165,7 @@ export function loadCMSProducts(lang: "ua" | "en" = "ua"): Product[] {
         name_en: data.name_en?.trim() || data.name?.trim(),
         description_en: data.description_en?.trim() || data.description?.trim(),
         category_en: data.category_en?.trim() || data.category?.trim(),
+        seo_settings: data.seo_settings,
       });
     } catch (err) {
       console.error(`Failed to parse product with slug ${slug}:`, err);
