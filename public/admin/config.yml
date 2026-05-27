@@ -85,8 +85,8 @@ collections:
       - label: "Документи"
         name: "documents"
         widget: "list"
-        i18n: true
+        i18n: false
         fields:
-          - { label: "Назва звіту", name: "doc_title", widget: "string", i18n: true }
-          - { label: "PDF Файл", name: "pdf_file", widget: "file", i18n: false }
-          - { label: "Дата завантаження", name: "date", widget: "date", format: "YYYY-MM-DD", required: false, i18n: false }
+          - { label: "Назва звіту", name: "doc_title", widget: "string" }
+          - { label: "PDF Файл", name: "pdf_file", widget: "file" }
+          - { label: "Дата завантаження", name: "date", widget: "date", format: "YYYY-MM-DD", required: false }

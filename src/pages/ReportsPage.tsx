@@ -37,34 +37,60 @@ export default function ReportsPage() {
       : "Офіційні річні звіти, аудити безпеки та публічна інформація екосистеми Mikron.",
   });
 
-  // Load, parse, filter, and sort YAML reports
+  // Load, parse, filter, and sort YAML reports with UA fallback for missing EN content
   const sortedReports = useMemo(() => {
-    const parsedData: ReportYearData[] = [];
+    // First pass: collect raw strings keyed by { slug -> { ua?, en? } }
+    type LangFiles = { ua?: string; en?: string };
+    const grouped: Record<string, LangFiles> = {};
 
     for (const [path, mod] of Object.entries(reportModules)) {
       const filename = path.split("/").pop() ?? "";
-      
-      // Filter out files that do not match the current language suffix
-      const targetSuffix = `.${lang}.yaml`;
-      const targetSuffixYml = `.${lang}.yml`;
-      
-      if (!filename.endsWith(targetSuffix) && !filename.endsWith(targetSuffixYml)) {
-        continue;
-      }
-
       const rawContent: string = typeof mod === "string" ? mod : mod?.default ?? "";
       if (!rawContent.trim()) continue;
 
+      let baseSlug = "";
+      let fileLang: "ua" | "en" | null = null;
+
+      if (filename.endsWith(".ua.yaml") || filename.endsWith(".ua.yml")) {
+        baseSlug = filename.replace(/\.ua\.(yaml|yml)$/i, "");
+        fileLang = "ua";
+      } else if (filename.endsWith(".en.yaml") || filename.endsWith(".en.yml")) {
+        baseSlug = filename.replace(/\.en\.(yaml|yml)$/i, "");
+        fileLang = "en";
+      } else {
+        continue;
+      }
+
+      if (!grouped[baseSlug]) grouped[baseSlug] = {};
+      grouped[baseSlug][fileLang] = rawContent;
+    }
+
+    // Second pass: parse and apply fallback
+    const parsedData: ReportYearData[] = [];
+
+    for (const [, files] of Object.entries(grouped)) {
+      // Pick raw content for current language, fall back to the other
+      const primaryRaw = lang === "en" ? files.en : files.ua;
+      const fallbackRaw = lang === "en" ? files.ua : files.en;
+
+      const rawToUse = primaryRaw || fallbackRaw || "";
+      if (!rawToUse.trim()) continue;
+
       try {
-        const data = parseYaml(rawContent) as Partial<ReportYearData>;
-        if (data && typeof data === "object" && data.title && Array.isArray(data.documents)) {
-          parsedData.push({
-            title: data.title,
-            documents: data.documents,
-          });
+        const data = parseYaml(rawToUse) as Partial<ReportYearData>;
+
+        // If primary lang file exists but has no documents, fall back
+        let documents = Array.isArray(data.documents) ? data.documents : [];
+        if (documents.length === 0 && fallbackRaw) {
+          const fallbackData = parseYaml(fallbackRaw) as Partial<ReportYearData>;
+          documents = Array.isArray(fallbackData.documents) ? fallbackData.documents : [];
+        }
+
+        if (data.title && documents.length > 0) {
+          parsedData.push({ title: data.title, documents });
         }
       } catch (err) {
-        console.error(`Failed to parse report file ${filename}:`, err);
+        console.error("Failed to parse report:", err);
       }
     }
 
