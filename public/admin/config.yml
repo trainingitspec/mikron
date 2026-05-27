@@ -11,7 +11,7 @@ public_folder: "/uploads"
 
 # Глобальні налаштування локалізації для Decap CMS
 i18n:
-  structure: i18n
+  structure: multiple_files
   locales: [ua, en]
   default_locale: ua
 
