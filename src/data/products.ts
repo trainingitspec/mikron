@@ -86,6 +86,15 @@ interface ProductGroup {
   fallback?: string;
 }
 
+// Category translation map (CMS always stores UA values since category has i18n: false)
+const CATEGORY_UA_TO_EN: Record<string, string> = {
+  "Операційні системи": "Operating Systems",
+  "Аналітика": "Analytics",
+  "Безпека": "Security",
+  "DevOps": "DevOps",
+  "Інше": "Other",
+};
+
 export function loadCMSProducts(lang: "ua" | "en" = "ua"): Product[] {
   const groups: Record<string, ProductGroup> = {};
 
@@ -132,13 +141,18 @@ export function loadCMSProducts(lang: "ua" | "en" = "ua"): Product[] {
       const data = parseYaml(rawContent) as CMSProductRaw;
       if (!data || typeof data !== "object") continue;
 
+      const rawCategory = data.category?.trim() || "Інше";
+      const resolvedCategory = lang === "en"
+        ? (CATEGORY_UA_TO_EN[rawCategory] || rawCategory)
+        : rawCategory;
+
       result.push({
         id: slug,
-        name: data.name?.trim() || "Без назви",
+        name: data.name?.trim() || (lang === "en" ? "Untitled" : "Без назви"),
         price: typeof data.price === "number" ? data.price : 0,
         description: data.description?.trim() || "",
         image: data.image?.trim() || "",
-        category: data.category?.trim() || "Інше",
+        category: resolvedCategory,
         featured: data.featured ?? false,
         name_en: data.name_en?.trim() || data.name?.trim(),
         description_en: data.description_en?.trim() || data.description?.trim(),

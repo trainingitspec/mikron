@@ -1,0 +1,6 @@
+name: SecureLink
+price: 4500
+description: Enterprise Zero Trust VPN solution. End-to-end encryption, two-factor authentication, and network-level access control.
+image: /images/product-securelink.jpg
+category: Security
+featured: false

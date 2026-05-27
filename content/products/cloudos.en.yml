@@ -1,0 +1,6 @@
+name: CloudOS
+price: 12500
+description: Cloud operating system for enterprise infrastructure. Provides continuous uptime, automatic scaling, and enterprise-grade data protection.
+image: /images/product-cloudos.jpg
+category: Operating Systems
+featured: true

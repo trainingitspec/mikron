@@ -1,0 +1,6 @@
+name: DevPulse
+price: 6200
+description: Real-time CI/CD process monitoring system. Track pipelines, alerts, and team productivity metrics in one place.
+image: /images/product-devpulse.jpg
+category: DevOps
+featured: false

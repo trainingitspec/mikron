@@ -35,6 +35,9 @@ export default function BlogPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    // Reset state immediately when language changes
+    setIsLoading(true);
+    setPosts([]);
     try {
       interface BlogGroup {
         ua?: { raw: string; path: string };

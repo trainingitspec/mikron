@@ -28,11 +28,13 @@ const CATEGORY_DOT: Record<string, string> = {
   "Other": "bg-soft",
 };
 
+const ALL_KEY = "___ALL___";
+
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function ProductsPage() {
   const { addToCart } = useCart();
   const { lang, t } = useLanguage();
-  const [activeCategory, setActiveCategory] = useState<string>("Всі");
+  const [activeCategory, setActiveCategory] = useState<string>(ALL_KEY);
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
   const [showFilters, setShowFilters] = useState(false);
   const [addedId, setAddedId] = useState<string | null>(null);
@@ -43,15 +45,20 @@ export default function ProductsPage() {
   }, [lang]);
 
   // Derive unique categories
+  // Reset category filter when language changes (category names change with locale)
+  useMemo(() => {
+    setActiveCategory(ALL_KEY);
+  }, [lang]);
+
   const categories = useMemo(() => {
     const cats = Array.from(new Set(ALL_PRODUCTS.map((p) => p.category)));
-    return ["Всі", ...cats];
+    return [ALL_KEY, ...cats];
   }, [ALL_PRODUCTS]);
 
   // Filter + sort
   const displayProducts = useMemo(() => {
     let list =
-      activeCategory === "Всі"
+      activeCategory === ALL_KEY
         ? ALL_PRODUCTS
         : ALL_PRODUCTS.filter((p) => p.category === activeCategory);
 
@@ -115,7 +122,7 @@ export default function ProductsPage() {
                     : "border-white/10 text-soft hover:border-white/30 hover:text-white"
                 }`}
               >
-                {cat === "Всі" ? t("catalog.all") : cat}
+                {cat === ALL_KEY ? t("catalog.all") : cat}
               </button>
             ))}
           </div>
@@ -180,7 +187,7 @@ export default function ProductsPage() {
         {/* ── Products grid ───────────────────────────────────────────────── */}
         {!isEmpty && displayProducts.length === 0 && (
           <p className="text-soft font-sans text-[15px] py-20 text-center">
-            {t("catalog.empty.category").replace("{cat}", activeCategory === "Всі" ? t("catalog.all") : activeCategory)}
+            {t("catalog.empty.category").replace("{cat}", activeCategory === ALL_KEY ? t("catalog.all") : activeCategory)}
           </p>
         )}
 
