@@ -20,6 +20,11 @@ excerpt: >-
 
 
   Контроль приватності: Вбудована панель безпеки, яка чітко показує, які додатки мають доступ до камери, мікрофона чи локації.
+seo_settings:
+  seo_title: MikronOS mobile - OS for mobile devices
+  seo_description: The release of MikronOS Mobile opens a new page in the history
+    of our ecosystem. The first wave of beta testing for developers will start
+    in the near future.
 ---
 ## Екосистема у вашій кишені: Зустрічайте абсолютно нову MikronOS Mobile
 
