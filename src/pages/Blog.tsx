@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import fm from "front-matter";
+import { useLanguage } from "@/context/LanguageContext";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface PostAttributes {
@@ -29,22 +30,58 @@ const markdownModules = import.meta.glob("/content/blog/*.md", {
 
 // ─── Blog Page Component ─────────────────────────────────────────────────────
 export default function BlogPage() {
+  const { lang, t } = useLanguage();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     try {
-      const result: BlogPost[] = [];
+      interface BlogGroup {
+        ua?: { raw: string; path: string };
+        en?: { raw: string; path: string };
+        fallback?: { raw: string; path: string };
+      }
+
+      const groups: Record<string, BlogGroup> = {};
 
       for (const [path, mod] of Object.entries(markdownModules)) {
-        // Safe check for string/module structure
         const raw: string = typeof mod === "string" ? mod : mod?.default ?? "";
-
         if (!raw.trim()) continue;
 
+        const filename = path.split("/").pop() ?? "";
+        let baseSlug = "";
+        let fileLang: "ua" | "en" | "fallback" = "fallback";
+
+        if (filename.endsWith(".ua.md")) {
+          baseSlug = filename.slice(0, -6);
+          fileLang = "ua";
+        } else if (filename.endsWith(".en.md")) {
+          baseSlug = filename.slice(0, -6);
+          fileLang = "en";
+        } else if (filename.endsWith(".md")) {
+          baseSlug = filename.slice(0, -3);
+          fileLang = "fallback";
+        } else {
+          continue;
+        }
+
+        if (!groups[baseSlug]) {
+          groups[baseSlug] = {};
+        }
+        groups[baseSlug][fileLang] = { raw, path };
+      }
+
+      const result: BlogPost[] = [];
+
+      for (const [slug, files] of Object.entries(groups)) {
+        let selected = lang === "en"
+          ? (files.en || files.fallback || files.ua)
+          : (files.ua || files.fallback || files.en);
+
+        if (!selected) continue;
+
         try {
-          const { attributes, body } = fm<PostAttributes>(raw);
-          const slug = path.split("/").pop()?.replace(/\.md$/i, "") ?? "unknown";
+          const { attributes, body } = fm<PostAttributes>(selected.raw);
 
           // Safe Date Normalization
           let dateStr = "1970-01-01";
@@ -61,15 +98,15 @@ export default function BlogPage() {
 
           result.push({
             slug,
-            title: attributes.title?.trim() || "Без назви",
+            title: attributes.title?.trim() || (lang === "en" ? "Untitled" : "Без назви"),
             date: dateStr,
-            author: attributes.author?.trim() || "Автор",
+            author: attributes.author?.trim() || (lang === "en" ? "Author" : "Автор"),
             excerpt: attributes.excerpt?.trim() || "",
             content: body,
             featuredImage: attributes.featured_image,
           });
         } catch (err) {
-          console.error(`Не вдалося розпарсити файл ${path}:`, err);
+          console.error(`Не вдалося розпарсити файл ${selected.path}:`, err);
         }
       }
 
@@ -81,13 +118,13 @@ export default function BlogPage() {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [lang]);
 
   // Safe Date Formatting helper
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return "Невідома дата";
-    return d.toLocaleDateString("uk-UA", {
+    if (isNaN(d.getTime())) return lang === "en" ? "Unknown date" : "Невідома дата";
+    return d.toLocaleDateString(lang === "en" ? "en-US" : "uk-UA", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -102,7 +139,7 @@ export default function BlogPage() {
       <div className="max-w-[1200px] mx-auto px-6">
         {/* Header */}
         <span className="text-gold uppercase tracking-[1.5px] font-sans text-[11px] font-medium">
-          БЛОГ
+          {t("blog.badge")}
         </span>
         <h1
           className="font-heading text-white uppercase mt-2 mb-12"
@@ -112,20 +149,20 @@ export default function BlogPage() {
             letterSpacing: "-0.5px",
           }}
         >
-          Всі публікації
+          {t("blog.title")}
         </h1>
 
         {/* Loading state */}
         {isLoading && (
           <p className="text-soft font-sans text-[16px] animate-pulse">
-            Завантаження публікацій...
+            {t("blog.loading")}
           </p>
         )}
 
         {/* Empty state */}
         {!isLoading && posts.length === 0 && (
           <p className="text-soft font-sans text-[16px]">
-            Публікацій поки немає. Додайте першу статтю в адмінці.
+            {t("blog.empty")}
           </p>
         )}
 
@@ -177,7 +214,7 @@ export default function BlogPage() {
 
                 <div className="mt-4">
                   <span className="text-gold font-sans text-[13px] uppercase tracking-[1px] group-hover:text-white transition-colors duration-300">
-                    Читати далі →
+                    {t("blog.read_more")}
                   </span>
                 </div>
               </Link>

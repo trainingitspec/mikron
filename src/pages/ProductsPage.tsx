@@ -1,38 +1,52 @@
 import { useState, useMemo } from "react";
 import { ShoppingCart, SlidersHorizontal, Star, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { products as ALL_PRODUCTS, type Product } from "@/data/products";
-
+import { loadCMSProducts, type Product } from "@/data/products";
+import { useLanguage } from "@/context/LanguageContext";
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Операційні системи": "text-cyan border-cyan/30 bg-cyan/5",
+  "Operating Systems": "text-cyan border-cyan/30 bg-cyan/5",
   "Аналітика": "text-gold border-gold/30 bg-gold/5",
+  "Analytics": "text-gold border-gold/30 bg-gold/5",
   "Безпека": "text-magenta border-magenta/30 bg-magenta/5",
+  "Security": "text-magenta border-magenta/30 bg-magenta/5",
   "DevOps": "text-emerald-400 border-emerald-400/30 bg-emerald-400/5",
   "Інше": "text-soft border-white/10 bg-white/5",
+  "Other": "text-soft border-white/10 bg-white/5",
 };
 
 const CATEGORY_DOT: Record<string, string> = {
   "Операційні системи": "bg-cyan shadow-[0_0_6px_#00f0ff]",
+  "Operating Systems": "bg-cyan shadow-[0_0_6px_#00f0ff]",
   "Аналітика": "bg-gold shadow-[0_0_6px_#ffc447]",
+  "Analytics": "bg-gold shadow-[0_0_6px_#ffc447]",
   "Безпека": "bg-magenta shadow-[0_0_6px_#ff00a0]",
+  "Security": "bg-magenta shadow-[0_0_6px_#ff00a0]",
   "DevOps": "bg-emerald-400 shadow-[0_0_6px_#34d399]",
   "Інше": "bg-soft",
+  "Other": "bg-soft",
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
 export default function ProductsPage() {
   const { addToCart } = useCart();
+  const { lang, t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState<string>("Всі");
   const [sortBy, setSortBy] = useState<"default" | "price-asc" | "price-desc">("default");
   const [showFilters, setShowFilters] = useState(false);
   const [addedId, setAddedId] = useState<string | null>(null);
 
+  // Load products dynamically based on lang
+  const ALL_PRODUCTS = useMemo(() => {
+    return loadCMSProducts(lang);
+  }, [lang]);
+
   // Derive unique categories
   const categories = useMemo(() => {
     const cats = Array.from(new Set(ALL_PRODUCTS.map((p) => p.category)));
     return ["Всі", ...cats];
-  }, []);
+  }, [ALL_PRODUCTS]);
 
   // Filter + sort
   const displayProducts = useMemo(() => {
@@ -45,7 +59,7 @@ export default function ProductsPage() {
     if (sortBy === "price-desc") list = [...list].sort((a, b) => b.price - a.price);
 
     return list;
-  }, [activeCategory, sortBy]);
+  }, [activeCategory, sortBy, ALL_PRODUCTS]);
 
   const handleAddToCart = (product: Product) => {
     addToCart(product);
@@ -65,7 +79,7 @@ export default function ProductsPage() {
         {/* ── Header ─────────────────────────────────────────────────────── */}
         <div className="flex flex-col gap-2 mb-10">
           <span className="text-gold uppercase tracking-[1.5px] font-sans text-[11px] font-medium">
-            КАТАЛОГ
+            {t("catalog.badge")}
           </span>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <h1
@@ -76,11 +90,11 @@ export default function ProductsPage() {
                 letterSpacing: "-0.5px",
               }}
             >
-              Наші продукти
+              {t("catalog.title")}
             </h1>
             <span className="text-soft font-sans text-sm">
               {displayProducts.length}{" "}
-              {displayProducts.length === 1 ? "продукт" : "продукти"}
+              {displayProducts.length === 1 ? t("catalog.count_singular") : t("catalog.count_plural")}
             </span>
           </div>
           {/* Thin gold divider */}
@@ -101,7 +115,7 @@ export default function ProductsPage() {
                     : "border-white/10 text-soft hover:border-white/30 hover:text-white"
                 }`}
               >
-                {cat}
+                {cat === "Всі" ? t("catalog.all") : cat}
               </button>
             ))}
           </div>
@@ -113,7 +127,7 @@ export default function ProductsPage() {
               className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/10 text-soft hover:text-white hover:border-white/30 font-sans text-[12px] uppercase tracking-[1px] transition-all duration-200"
             >
               <SlidersHorizontal size={14} />
-              Сортування
+              {t("catalog.sorting")}
               {showFilters && (
                 <X size={12} className="ml-1 opacity-60" />
               )}
@@ -121,9 +135,9 @@ export default function ProductsPage() {
             {showFilters && (
               <div className="absolute right-0 top-full mt-2 w-52 rounded-xl border border-white/10 bg-[#121212] shadow-deep z-20 overflow-hidden">
                 {[
-                  { value: "default", label: "За замовчуванням" },
-                  { value: "price-asc", label: "Ціна: від низької" },
-                  { value: "price-desc", label: "Ціна: від високої" },
+                  { value: "default", label: t("catalog.sort.default") },
+                  { value: "price-asc", label: t("catalog.sort.asc") },
+                  { value: "price-desc", label: t("catalog.sort.desc") },
                 ].map((opt) => (
                   <button
                     key={opt.value}
@@ -155,11 +169,10 @@ export default function ProductsPage() {
               <ShoppingCart size={28} className="text-gold opacity-60" />
             </div>
             <p className="text-white font-heading text-xl uppercase mb-2">
-              Каталог порожній
+              {t("catalog.empty.title")}
             </p>
             <p className="text-soft font-sans text-sm">
-              Додайте перший продукт через адмінку Decap CMS за адресою{" "}
-              <span className="text-gold">/admin</span>
+              {t("catalog.empty.desc")} <span className="text-gold">/admin</span>
             </p>
           </div>
         )}
@@ -167,7 +180,7 @@ export default function ProductsPage() {
         {/* ── Products grid ───────────────────────────────────────────────── */}
         {!isEmpty && displayProducts.length === 0 && (
           <p className="text-soft font-sans text-[15px] py-20 text-center">
-            У категорії «{activeCategory}» продуктів не знайдено.
+            {t("catalog.empty.category").replace("{cat}", activeCategory === "Всі" ? t("catalog.all") : activeCategory)}
           </p>
         )}
 
@@ -191,7 +204,7 @@ export default function ProductsPage() {
                     <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 backdrop-blur-sm">
                       <Star size={10} className="text-gold fill-gold" />
                       <span className="text-gold font-sans text-[10px] uppercase tracking-[1.5px] font-semibold">
-                        Топ
+                        {t("catalog.top_badge")}
                       </span>
                     </div>
                   )}
@@ -243,10 +256,10 @@ export default function ProductsPage() {
                     <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/5">
                       <div className="flex flex-col">
                         <span className="text-soft font-sans text-[10px] uppercase tracking-[1px] mb-0.5">
-                          Вартість
+                          {t("catalog.price_label")}
                         </span>
                         <span className="text-gold font-sans text-2xl font-semibold">
-                          {product.price.toLocaleString("uk-UA")}{" "}
+                          {product.price.toLocaleString(lang === "en" ? "en-US" : "uk-UA")}{" "}
                           <span className="text-base font-normal">₴</span>
                         </span>
                       </div>
@@ -259,7 +272,7 @@ export default function ProductsPage() {
                             : "bg-gold text-deep-black hover:bg-white hover:shadow-neon-gold"
                         }`}
                       >
-                        {isAdded ? "✓ Додано" : "В кошик"}
+                        {isAdded ? `✓ ${t("products.added")}` : t("products.add_to_cart")}
                       </button>
                     </div>
                   </div>
@@ -273,13 +286,13 @@ export default function ProductsPage() {
         {!isEmpty && (
           <div className="mt-16 text-center">
             <p className="text-soft font-sans text-sm mb-4">
-              Не знайшли потрібне рішення?
+              {t("catalog.footer.text")}
             </p>
             <a
               href="#contact"
               className="inline-flex items-center gap-2 px-8 py-3 rounded-lg border border-gold/30 text-gold hover:bg-gold/10 font-sans text-[13px] uppercase tracking-[1px] font-semibold transition-all duration-300"
             >
-              Зв'язатися з нами →
+              {t("catalog.footer.cta")}
             </a>
           </div>
         )}

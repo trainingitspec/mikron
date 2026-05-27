@@ -75,43 +75,87 @@ interface CMSProductRaw {
 }
 
 // Load YAML product files at build time
-const productModules = import.meta.glob("/content/products/*.yml", {
+const productModules = import.meta.glob("/content/products/*.{yml,yaml}", {
   query: "raw",
   eager: true,
 }) as Record<string, { default: string } | string>;
 
-export function loadCMSProducts(): Product[] {
-  const result: Product[] = [];
+interface ProductGroup {
+  ua?: string;
+  en?: string;
+  fallback?: string;
+}
+
+export function loadCMSProducts(lang: "ua" | "en" = "ua"): Product[] {
+  const groups: Record<string, ProductGroup> = {};
 
   for (const [path, mod] of Object.entries(productModules)) {
     const raw: string = typeof mod === "string" ? mod : mod?.default ?? "";
     if (!raw.trim()) continue;
 
-    try {
-      const data = parseYaml(raw) as CMSProductRaw;
-      if (!data || typeof data !== "object") continue;
+    const filename = path.split("/").pop() ?? "";
+    let baseSlug = "";
+    let fileLang: "ua" | "en" | "fallback" = "fallback";
 
-      const slug = path.split("/").pop()?.replace(/\.ya?ml$/i, "") ?? "unknown";
+    if (filename.endsWith(".ua.yaml") || filename.endsWith(".ua.yml")) {
+      baseSlug = filename.replace(/\.ua\.(yaml|yml)$/i, "");
+      fileLang = "ua";
+    } else if (filename.endsWith(".en.yaml") || filename.endsWith(".en.yml")) {
+      baseSlug = filename.replace(/\.en\.(yaml|yml)$/i, "");
+      fileLang = "en";
+    } else if (filename.endsWith(".yaml") || filename.endsWith(".yml")) {
+      baseSlug = filename.replace(/\.(yaml|yml)$/i, "");
+      fileLang = "fallback";
+    } else {
+      continue;
+    }
+
+    if (!groups[baseSlug]) {
+      groups[baseSlug] = {};
+    }
+    groups[baseSlug][fileLang] = raw;
+  }
+
+  const result: Product[] = [];
+
+  for (const [slug, files] of Object.entries(groups)) {
+    let rawContent = "";
+    if (lang === "en") {
+      rawContent = files.en || files.fallback || files.ua || "";
+    } else {
+      rawContent = files.ua || files.fallback || files.en || "";
+    }
+
+    if (!rawContent) continue;
+
+    try {
+      const data = parseYaml(rawContent) as CMSProductRaw;
+      if (!data || typeof data !== "object") continue;
 
       result.push({
         id: slug,
         name: data.name?.trim() || "Без назви",
-        name_en: data.name_en?.trim(),
         price: typeof data.price === "number" ? data.price : 0,
         description: data.description?.trim() || "",
-        description_en: data.description_en?.trim(),
         image: data.image?.trim() || "",
         category: data.category?.trim() || "Інше",
-        category_en: data.category_en?.trim(),
         featured: data.featured ?? false,
+        name_en: data.name_en?.trim() || data.name?.trim(),
+        description_en: data.description_en?.trim() || data.description?.trim(),
+        category_en: data.category_en?.trim() || data.category?.trim(),
       });
     } catch (err) {
-      console.error(`Не вдалося розпарсити продукт: ${path}`, err);
+      console.error(`Failed to parse product with slug ${slug}:`, err);
     }
   }
 
   if (result.length === 0) {
-    return staticProducts;
+    return staticProducts.map(p => ({
+      ...p,
+      name: lang === "en" ? (p.name_en || p.name) : p.name,
+      description: lang === "en" ? (p.description_en || p.description) : p.description,
+      category: lang === "en" ? (p.category_en || p.category) : p.category,
+    }));
   }
 
   // Featured first, then by name
@@ -119,8 +163,8 @@ export function loadCMSProducts(): Product[] {
     const aFeat = a.featured ? 1 : 0;
     const bFeat = b.featured ? 1 : 0;
     if (bFeat !== aFeat) return bFeat - aFeat;
-    return a.name.localeCompare(b.name, "uk");
+    return a.name.localeCompare(b.name, lang === "en" ? "en" : "uk");
   });
 }
 
-export const products = loadCMSProducts();
+export const products = loadCMSProducts("ua");

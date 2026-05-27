@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { products } from "@/data/products";
+import { loadCMSProducts, type Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { ArrowRight, ShoppingCart } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
@@ -29,8 +29,11 @@ export default function Products() {
   const [addedId, setAddedId] = useState<string | null>(null);
 
   // Show only featured products on homepage (max 3), or fallback to first 3 products
-  const featuredProducts = products.filter((p) => p.featured).slice(0, 3);
-  const displayList = featuredProducts.length > 0 ? featuredProducts : products.slice(0, 3);
+  const displayList = useMemo(() => {
+    const allProducts = loadCMSProducts(lang);
+    const featuredProducts = allProducts.filter((p) => p.featured).slice(0, 3);
+    return featuredProducts.length > 0 ? featuredProducts : allProducts.slice(0, 3);
+  }, [lang]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -53,7 +56,7 @@ export default function Products() {
     return () => ctx.revert();
   }, [displayList]);
 
-  const handleAddToCart = (product: typeof products[0]) => {
+  const handleAddToCart = (product: Product) => {
     addToCart(product);
     setAddedId(product.id);
     setTimeout(() => setAddedId(null), 1500);
@@ -100,9 +103,9 @@ export default function Products() {
         {/* Minimal List */}
         <div ref={listRef} className="flex flex-col divide-y divide-white/5 border-t border-b border-white/5">
           {displayList.map((product) => {
-            const name = lang === "en" ? (product.name_en || product.name) : product.name;
-            const description = lang === "en" ? (product.description_en || product.description) : product.description;
-            const category = lang === "en" ? (product.category_en || product.category) : product.category;
+            const name = product.name;
+            const description = product.description;
+            const category = product.category;
             
             const badgeClass = CATEGORY_COLORS[category] ?? CATEGORY_COLORS["Інше"];
             const isAdded = addedId === product.id;

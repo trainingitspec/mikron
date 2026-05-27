@@ -1,9 +1,10 @@
 import { Github, Linkedin, Twitter } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 const companyLinks = [
-  { label: "Про нас", href: "#about" },
-  { label: "Команда", href: "#" },
-  { label: "Кар'єра", href: "#" },
+  { key: "footer.about", href: "#about" },
+  { key: "footer.team", href: "#" },
+  { key: "footer.careers", href: "#" },
 ];
 
 const productLinks = [
@@ -14,6 +15,8 @@ const productLinks = [
 ];
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer
       className="bg-deep-black border-t border-charcoal"
@@ -31,24 +34,24 @@ export default function Footer() {
               className="text-[#666666] font-sans text-[15px] mt-4"
               style={{ lineHeight: 1.6 }}
             >
-              Програмні рішення майбутнього
+              {t("footer.tagline")}
             </p>
           </div>
 
           {/* Company */}
           <div>
             <h4 className="text-white font-sans text-sm font-medium uppercase tracking-[1.5px] mb-4">
-              Компанія
+              {t("footer.company")}
             </h4>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
-                <li key={link.label}>
+                <li key={link.key}>
                   <a
                     href={link.href}
                     className="text-soft font-sans text-[15px] hover:text-white transition-colors"
                     style={{ lineHeight: 1.6 }}
                   >
-                    {link.label}
+                    {t(link.key)}
                   </a>
                 </li>
               ))}
@@ -58,7 +61,7 @@ export default function Footer() {
           {/* Products */}
           <div>
             <h4 className="text-white font-sans text-sm font-medium uppercase tracking-[1.5px] mb-4">
-              Продукти
+              {t("footer.products")}
             </h4>
             <ul className="space-y-3">
               {productLinks.map((link) => (
@@ -78,7 +81,7 @@ export default function Footer() {
           {/* Contacts */}
           <div>
             <h4 className="text-white font-sans text-sm font-medium uppercase tracking-[1.5px] mb-4">
-              Контакти
+              {t("footer.contacts")}
             </h4>
             <div className="space-y-2">
               <a
@@ -111,7 +114,7 @@ export default function Footer() {
         {/* Row 2 — Copyright */}
         <div className="mt-16 pt-8 border-t border-charcoal text-center">
           <p className="text-[#666666] uppercase tracking-[1.5px] font-sans text-[11px] font-medium">
-            © 2026 Mikron. Всі права захищено.
+            © 2026 Mikron. {t("footer.rights")}
           </p>
         </div>
       </div>

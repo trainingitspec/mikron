@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import fm from "front-matter";
 import ReactMarkdown from "react-markdown";
 import { ArrowLeft, Calendar, User } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface PostAttributes {
   title?: string;
@@ -19,6 +20,7 @@ const markdownModules = import.meta.glob("/content/blog/*.md", {
 }) as Record<string, { default: string } | string>;
 
 export default function BlogPost() {
+  const { lang, t } = useLanguage();
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
@@ -29,25 +31,31 @@ export default function BlogPost() {
 
   // Find the matching markdown file
   const matchedEntry = Object.entries(markdownModules).find(([path]) => {
-    const fileSlug = path.split("/").pop()?.replace(/\.md$/i, "") ?? "";
-    return fileSlug === slug;
+    const filename = path.split("/").pop() ?? "";
+    return filename === `${slug}.${lang}.md`;
+  }) || Object.entries(markdownModules).find(([path]) => {
+    const filename = path.split("/").pop() ?? "";
+    if (filename === `${slug}.md`) return true;
+    if (lang === "en" && filename === `${slug}.ua.md`) return true;
+    if (lang === "ua" && filename === `${slug}.en.md`) return true;
+    return false;
   });
 
   if (!matchedEntry) {
     return (
       <main className="min-h-screen bg-deep-black flex flex-col items-center justify-center text-center px-6">
         <h1 className="font-heading text-white text-3xl uppercase mb-4">
-          Статтю не знайдено
+          {t("blog.post.not_found")}
         </h1>
         <p className="text-soft font-sans mb-8">
-          Запитувана публікація не існує або була видалена.
+          {t("blog.post.not_found_desc")}
         </p>
         <Link
           to="/blog"
           className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg border border-gold/30 text-gold hover:bg-gold/10 font-sans text-sm uppercase tracking-[1px] transition-all duration-300"
         >
           <ArrowLeft size={16} />
-          Назад до блогу
+          {t("blog.post.back")}
         </Link>
       </main>
     );
@@ -56,16 +64,16 @@ export default function BlogPost() {
   const [, mod] = matchedEntry;
   const raw: string = typeof mod === "string" ? mod : mod?.default ?? "";
 
-  let title = "Без назви";
+  let title = lang === "en" ? "Untitled" : "Без назви";
   let dateStr = "";
-  let author = "Автор";
+  let author = lang === "en" ? "Author" : "Автор";
   let featuredImage = "";
   let bodyContent = "";
 
   try {
     const { attributes, body } = fm<PostAttributes>(raw);
-    title = attributes.title?.trim() || "Без назви";
-    author = attributes.author?.trim() || "Автор";
+    title = attributes.title?.trim() || (lang === "en" ? "Untitled" : "Без назви");
+    author = attributes.author?.trim() || (lang === "en" ? "Author" : "Автор");
     featuredImage = attributes.featured_image || "";
     bodyContent = body;
 
@@ -73,7 +81,7 @@ export default function BlogPost() {
     if (attributes.date) {
       const d = attributes.date instanceof Date ? attributes.date : new Date(attributes.date);
       if (!isNaN(d.getTime())) {
-        dateStr = d.toLocaleDateString("uk-UA", {
+        dateStr = d.toLocaleDateString(lang === "en" ? "en-US" : "uk-UA", {
           year: "numeric",
           month: "long",
           day: "numeric",
@@ -96,7 +104,7 @@ export default function BlogPost() {
           className="inline-flex items-center gap-2 text-soft hover:text-gold font-sans text-[12px] uppercase tracking-[1.5px] mb-8 transition-colors duration-200"
         >
           <ArrowLeft size={14} />
-          Назад до блогу
+          {t("blog.post.back")}
         </button>
 
         {/* Article Meta */}
@@ -109,7 +117,7 @@ export default function BlogPost() {
           )}
           <span className="flex items-center gap-1.5">
             <User size={14} className="text-gold" />
-            {author}
+            {t("blog.post.author")}: {author}
           </span>
         </div>
 

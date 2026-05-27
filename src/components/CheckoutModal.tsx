@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, CheckCircle } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface CheckoutModalProps {
   onClose: () => void;
@@ -11,6 +12,7 @@ type Step = "contact" | "payment" | "success";
 
 export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProps) {
   const { items, clearCart, closeCart } = useCart();
+  const { lang, t } = useLanguage();
   const [step, setStep] = useState<Step>("contact");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -79,27 +81,32 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
         {step === "contact" && (
           <form onSubmit={handleContactSubmit} className="p-8">
             <h3 className="font-heading text-2xl text-white uppercase tracking-[-0.5px] mb-2">
-              Оформлення замовлення
+              {t("checkout.title")}
             </h3>
-            <p className="text-soft text-sm mb-8">Крок 1 з 2 — Контактні дані</p>
+            <p className="text-soft text-sm mb-8">
+              {t("checkout.step")
+                .replace("{current}", "1")
+                .replace("{total}", "2")
+                .replace("{title}", t("checkout.contact_details"))}
+            </p>
 
             <div className="space-y-6">
               <div>
                 <label className="block text-xs uppercase tracking-[1.5px] text-muted-foreground mb-2">
-                  Ім&apos;я
+                  {t("checkout.form.name")}
                 </label>
                 <input
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  placeholder="Ваше ім'я"
+                  placeholder={lang === "en" ? "Your Name" : "Ваше ім'я"}
                   required
                   className="w-full bg-transparent border-0 border-b border-charcoal text-white text-[15px] py-3 px-0 focus:border-gold focus:outline-none transition-colors placeholder:text-[#666666]"
                 />
               </div>
               <div>
                 <label className="block text-xs uppercase tracking-[1.5px] text-muted-foreground mb-2">
-                  Email
+                  {t("checkout.form.email")}
                 </label>
                 <input
                   type="email"
@@ -114,16 +121,16 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
 
             <div className="mt-8 pt-6 border-t border-charcoal">
               <div className="flex items-center justify-between mb-6">
-                <span className="text-soft text-sm">До сплати</span>
+                <span className="text-soft text-sm">{t("checkout.to_pay")}</span>
                 <span className="text-gold text-2xl font-semibold">
-                  {totalPrice.toLocaleString("uk-UA")} ₴
+                  {totalPrice.toLocaleString(lang === "en" ? "en-US" : "uk-UA")} ₴
                 </span>
               </div>
               <button
                 type="submit"
                 className="w-full h-[52px] bg-gold text-deep-black font-sans text-[13px] uppercase font-semibold tracking-[1.5px] hover:bg-white hover:shadow-neon-gold transition-all duration-300"
               >
-                Продовжити
+                {t("checkout.continue")}
               </button>
             </div>
           </form>
@@ -132,29 +139,37 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
         {step === "payment" && (
           <form onSubmit={handlePaymentSubmit} className="p-8">
             <h3 className="font-heading text-2xl text-white uppercase tracking-[-0.5px] mb-2">
-              Оплата карткою
+              {t("checkout.payment_title")}
             </h3>
-            <p className="text-soft text-sm mb-8">Крок 2 з 2 — Дані картки</p>
+            <p className="text-soft text-sm mb-8">
+              {t("checkout.step")
+                .replace("{current}", "2")
+                .replace("{total}", "2")
+                .replace("{title}", t("checkout.payment_details"))}
+            </p>
 
             {/* Order Summary */}
             <div className="mb-6 p-4 bg-deep-black border border-charcoal">
               <p className="text-xs uppercase tracking-[1.5px] text-muted-foreground mb-3">
-                Замовлення
+                {t("checkout.order_summary")}
               </p>
-              {items.map((item) => (
-                <div key={item.product.id} className="flex justify-between py-1">
-                  <span className="text-soft text-sm">
-                    {item.product.name} x{item.quantity}
-                  </span>
-                  <span className="text-white text-sm">
-                    {(item.product.price * item.quantity).toLocaleString("uk-UA")} ₴
-                  </span>
-                </div>
-              ))}
+              {items.map((item) => {
+                const productName = lang === "en" ? (item.product.name_en || item.product.name) : item.product.name;
+                return (
+                  <div key={item.product.id} className="flex justify-between py-1">
+                    <span className="text-soft text-sm">
+                      {productName} x{item.quantity}
+                    </span>
+                    <span className="text-white text-sm">
+                      {(item.product.price * item.quantity).toLocaleString(lang === "en" ? "en-US" : "uk-UA")} ₴
+                    </span>
+                  </div>
+                );
+              })}
               <div className="flex justify-between pt-3 mt-3 border-t border-charcoal">
-                <span className="text-white font-medium">Разом</span>
+                <span className="text-white font-medium">{t("cart.total")}</span>
                 <span className="text-gold font-semibold">
-                  {totalPrice.toLocaleString("uk-UA")} ₴
+                  {totalPrice.toLocaleString(lang === "en" ? "en-US" : "uk-UA")} ₴
                 </span>
               </div>
             </div>
@@ -162,7 +177,7 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
             <div className="space-y-6">
               <div>
                 <label className="block text-xs uppercase tracking-[1.5px] text-muted-foreground mb-2">
-                  Номер картки
+                  {t("checkout.card_number")}
                 </label>
                 <input
                   type="text"
@@ -177,13 +192,13 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
               <div className="flex gap-6">
                 <div className="flex-1">
                   <label className="block text-xs uppercase tracking-[1.5px] text-muted-foreground mb-2">
-                    Термін дії
+                    {t("checkout.expiry")}
                   </label>
                   <input
                     type="text"
                     value={expiry}
                     onChange={(e) => setExpiry(formatExpiry(e.target.value))}
-                    placeholder="MM / РР"
+                    placeholder="MM / YY"
                     maxLength={7}
                     required
                     className="w-full bg-transparent border-0 border-b border-charcoal text-white text-[15px] py-3 px-0 focus:border-gold focus:outline-none transition-colors placeholder:text-[#666666]"
@@ -191,7 +206,7 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
                 </div>
                 <div className="w-24">
                   <label className="block text-xs uppercase tracking-[1.5px] text-muted-foreground mb-2">
-                    CVC
+                    {t("checkout.cvc")}
                   </label>
                   <input
                     type="text"
@@ -210,7 +225,7 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
               type="submit"
               className="w-full h-[52px] mt-8 bg-gold text-deep-black font-sans text-[13px] uppercase font-semibold tracking-[1.5px] hover:bg-white hover:shadow-neon-gold transition-all duration-300"
             >
-              Сплатити {totalPrice.toLocaleString("uk-UA")} ₴
+              {t("checkout.pay_amount")} {totalPrice.toLocaleString(lang === "en" ? "en-US" : "uk-UA")} ₴
             </button>
 
             <button
@@ -218,7 +233,7 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
               onClick={() => setStep("contact")}
               className="w-full text-center text-soft text-sm hover:text-gold transition-colors mt-4 py-2"
             >
-              ← Назад
+              {t("checkout.back")}
             </button>
           </form>
         )}
@@ -229,13 +244,13 @@ export default function CheckoutModal({ onClose, totalPrice }: CheckoutModalProp
               <CheckCircle size={32} className="text-[#00ff88]" />
             </div>
             <h3 className="font-heading text-2xl text-white uppercase tracking-[-0.5px] mb-3">
-              Оплата успішна!
+              {t("checkout.success_payment")}
             </h3>
             <p className="text-soft text-sm mb-2">
-              Дякуємо за покупку, {name || "клієнте"}.
+              {t("checkout.success_thank_you").replace("{name}", name || t("checkout.success_client"))}
             </p>
             <p className="text-muted-foreground text-sm">
-              Ліцензії будуть надіслані на {email || "ваш email"} протягом кількох хвилин.
+              {t("checkout.success_licensing").replace("{email}", email || t("checkout.success_email_fallback"))}
             </p>
           </div>
         )}

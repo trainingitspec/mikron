@@ -9,7 +9,11 @@ backend:
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-#locale: 'uk'
+# Глобальні налаштування локалізації для Decap CMS
+i18n:
+  structure: i18n
+  locales: [ua, en]
+  default_locale: ua
 
 collections:
   - name: "blog"
@@ -17,13 +21,15 @@ collections:
     folder: "content/blog"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    # Вмикаємо i18n для колекції Блог
+    i18n: true
     fields:
-      - { label: "Заголовок", name: "title", widget: "string" }
-      - { label: "Дата публікації", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
-      - { label: "Автор", name: "author", widget: "string" }
-      - { label: "Обкладинка", name: "featured_image", widget: "image", required: false }
-      - { label: "Короткий опис", name: "excerpt", widget: "text" }
-      - { label: "Текст", name: "body", widget: "markdown" }
+      - { label: "Заголовок", name: "title", widget: "string", i18n: true }
+      - { label: "Дата публікації", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, i18n: false }
+      - { label: "Автор", name: "author", widget: "string", i18n: false }
+      - { label: "Обкладинка", name: "featured_image", widget: "image", required: false, i18n: false }
+      - { label: "Короткий опис", name: "excerpt", widget: "text", i18n: true }
+      - { label: "Текст", name: "body", widget: "markdown", i18n: true }
 
   - name: "products"
     label: "Продукти"
@@ -31,17 +37,20 @@ collections:
     format: "yaml" # Зберігатиме суто як конфіг-файл без markdown
     create: true
     slug: "{{slug}}"
+    # Вмикаємо i18n для колекції Продукти
+    i18n: true
     fields:
-      - { label: "Назва", name: "name", widget: "string" }
-      - { label: "Ціна (UAH)", name: "price", widget: "number" }
-      - { label: "Опис", name: "description", widget: "text" }
-      - { label: "Зображення", name: "image", widget: "image" }
+      - { label: "Назва", name: "name", widget: "string", i18n: true }
+      - { label: "Ціна (UAH)", name: "price", widget: "number", i18n: false }
+      - { label: "Опис", name: "description", widget: "text", i18n: true }
+      - { label: "Зображення", name: "image", widget: "image", i18n: false }
       - label: "Категорія"
         name: "category"
         widget: "select"
+        i18n: false
         options:
           - { label: "Операційні системи", value: "Операційні системи" }
           - { label: "Аналітика", value: "Аналітика" }
           - { label: "Безпека", value: "Безпека" }
           - { label: "DevOps", value: "DevOps" }
-      - { label: "Рекомендований", name: "featured", widget: "boolean", default: false }
+      - { label: "Рекомендований", name: "featured", widget: "boolean", default: false, i18n: false }
