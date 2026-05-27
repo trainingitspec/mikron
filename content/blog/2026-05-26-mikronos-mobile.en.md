@@ -4,52 +4,53 @@ date: 2026-05-26
 author: Jack Dou
 featured_image: /uploads/mikronos-mobile.png
 excerpt: >-
-  Сучасна, легка та безпечна операційна система для смартфонів нового покоління,
-  що забезпечує безшовну екосистему з десктопною версією MikronOS.
+  A modern, lightweight and secure operating system for next-generation
+  smartphones that provides a seamless ecosystem with the desktop version of
+  MikronOS.
 
 
-  Основні фішки:
+  Key features:
 
-  Єдиний дизайн-код: Інтуїтивно зрозумілий інтерфейс, знайомі іконки та фірмовий мінімалістичний стиль, що повторює десктопну версію.
-
-
-  Екосистема MikronСloud: Миттєва синхронізація повідомлень, пошти, відкритих вкладок браузера та робочих файлів між ПК та смартфоном.
+  A unified design code: Intuitive interface, familiar icons and a minimalistic style that echoes the desktop version.
 
 
-  Енергоефективність: Оптимізоване споживання заряду акумулятора завдяки інтелектуальному розподілу фонових процесів.
+  MikronCloud ecosystem: Instant synchronization of messages, mail, open browser tabs and work files between your PC and smartphone.
 
 
-  Контроль приватності: Вбудована панель безпеки, яка чітко показує, які додатки мають доступ до камери, мікрофона чи локації.
+  Energy efficiency: Optimized battery consumption thanks to intelligent distribution of background processes.
+
+
+  Privacy control: A built-in security panel that clearly shows which applications have access to the camera, microphone or location.
 seo_settings:
   seo_title: MikronOS mobile - OS for mobile devices
   seo_description: The release of MikronOS Mobile opens a new page in the history
     of our ecosystem. The first wave of beta testing for developers will start
     in the near future.
 ---
-## Екосистема у вашій кишені: Зустрічайте абсолютно нову MikronOS Mobile
+# An ecosystem in your pocket: Meet the all-new MikronOS Mobile
 
-Світ технологій давно перестав ділитися на «екран комп'ютера» та «екран смартфона». Сьогодні нам потрібен безперервний досвід: почати писати код чи замітку на ПК, а закінчити по дорозі на зустріч у метро. Саме тому ми створили MikronOS Mobile — мобільну операційну систему, яка стирає кордони між пристроями.
+The world of technology has long ceased to be divided into “computer screen” and “smartphone screen”. Today, we need a seamless experience: start writing code or a note on a PC, and finish it on the way to a meeting in the subway. That is why we created MikronOS Mobile - a mobile operating system that erases the boundaries between devices.
 
-### Філософія мобільної ефективності
+## Philosophy of mobile efficiency
 
-Створюючи MikronOS Mobile, ми відмовилися від перевантажених інтерфейсів та складних меню. Наш фокус — швидкість та чистий простір. Як ви можете бачити на перших прев'ю нашого продукту, головний екран зустрічає користувача фірмовим логотипом та лаконічною док-панеллю з найважливішими додатками: Пошта, Дзвінки, Повідомлення, Браузер, Налаштування та Галерея. Нічого зайвого, лише те, що потрібно для щоденної продуктивності.
+When creating MikronOS Mobile, we abandoned overloaded interfaces and complex menus. Our focus is on speed and clean space. As you can see in the first previews of our product, the main screen greets the user with a corporate logo and a laconic dock with the most important applications: Mail, Calls, Messages, Browser, Settings and Gallery. Nothing superfluous, only what is needed for daily productivity.
 
-## Чому це змінить ваш досвід користування смартфоном?
+## Why will this change your smartphone experience?
 
-### Безшовна синхронізація «з коробки»
+### Seamless synchronization "out of the box"
 
-Забудьте про пересилання файлів самому собі в месенджерах. Завдяки вбудованому хмарному ядру, ваш ПК під управлінням MikronOS та смартфон з MikronOS Mobile працюють як єдиний організм. Браузер пам'ятає ваші вкладки, а пошта та файловий менеджер оновлюються в реальному часі.
+Forget about sending files to yourself in messengers. Thanks to the built-in cloud core, your PC running MikronOS and your smartphone with MikronOS Mobile work as a single organism. The browser remembers your tabs, and the mail and file manager are updated in real time.
 
 ![mikron os mobile](/uploads/mikronos-mobile.png "Операційна система для мобільних пристроїв")
 
-### Продуктивність без компромісів
+### Productivity without compromise
 
-Мобільна версія успадкувала від старшої ОС головне — легкість. Вона не «забиває» оперативну пам'ять фоновими процесами, завдяки чому навіть після важких робочих завдань ваш смартфон працює плавно, а батарея тримає значно довше.
+The mobile version inherited the main thing from the older OS - lightness. It does not "clog" RAM with background processes, thanks to which even after heavy work tasks your smartphone works smoothly, and the battery lasts much longer.
 
-### Справжній фокус на роботі
+### Real focus at work
 
-Вбудовані режими фокусування дозволяють одним тапом відсікти всі зайві сповіщення, залишаючи доступними лише робочі контакти чи критично важливі додатки.
+Built-in focus modes allow you to cut off all unnecessary notifications with one tap, leaving only work contacts or critically important applications available.
 
-### Коли чекати?
+### When to expect?
 
-Реліз MikronOS Mobile відкриває нову сторінку в історії нашої екосистеми. Перша хвиля бета-тестування для розробників стартує вже найближчим часом. Слідкуйте за оновленнями в нашому блозі, щоб першими отримати доступ до системи мобільної ефективності!
+The release of MikronOS Mobile opens a new page in the history of our ecosystem. The first wave of beta testing for developers will start in the near future. Follow the updates on our blog to be the first to get access to the mobile efficiency system!
