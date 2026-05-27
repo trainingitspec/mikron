@@ -27,7 +27,7 @@ seo_settings:
     of our ecosystem. The first wave of beta testing for developers will start
     in the near future.
 ---
-# An ecosystem in your pocket: Meet the all-new MikronOS Mobile
+## An ecosystem in your pocket: Meet the all-new MikronOS Mobile
 
 The world of technology has long ceased to be divided into “computer screen” and “smartphone screen”. Today, we need a seamless experience: start writing code or a note on a PC, and finish it on the way to a meeting in the subway. That is why we created MikronOS Mobile - a mobile operating system that erases the boundaries between devices.
 
