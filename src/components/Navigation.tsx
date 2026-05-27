@@ -14,6 +14,7 @@ export default function Navigation() {
     { key: "nav.company", href: "#about" },
     { key: "nav.products", href: "/products" },
     { key: "nav.blog", href: "/blog" },
+    { key: "nav.reports", href: "/reports" },
     { key: "nav.contact", href: "#contact" },
   ];
 

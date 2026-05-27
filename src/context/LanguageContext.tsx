@@ -14,6 +14,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.company": "Компанія",
     "nav.products": "Продукти",
     "nav.blog": "Блог",
+    "nav.reports": "Звіти",
     "nav.contact": "Контакти",
     "nav.cart": "Кошик",
     // Hero
@@ -130,6 +131,7 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.company": "Company",
     "nav.products": "Products",
     "nav.blog": "Blog",
+    "nav.reports": "Reports",
     "nav.contact": "Contacts",
     "nav.cart": "Cart",
     // Hero

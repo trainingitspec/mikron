@@ -72,3 +72,21 @@ collections:
           - { label: "SEO Заголовок (Title)", name: "seo_title", widget: "string", i18n: true, required: false, pattern: ["^.{0,60}$", "Заголовок має бути не більше 60 символів"] }
           - { label: "SEO Опис (Description)", name: "seo_description", widget: "text", i18n: true, required: false, pattern: ["^.{0,160}$", "Опис має бути не більше 160 символів"] }
           - { label: "SEO Зображення (Open Graph Image)", name: "seo_image", widget: "image", i18n: false, required: false }
+
+  - name: "reports"
+    label: "Звіти"
+    folder: "content/reports"
+    format: "yaml"
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    fields:
+      - { label: "Рік (Title)", name: "title", widget: "string", i18n: false }
+      - label: "Документи"
+        name: "documents"
+        widget: "list"
+        i18n: true
+        fields:
+          - { label: "Назва звіту", name: "doc_title", widget: "string", i18n: true }
+          - { label: "PDF Файл", name: "pdf_file", widget: "file", i18n: false }
+          - { label: "Дата завантаження", name: "date", widget: "date", format: "YYYY-MM-DD", required: false, i18n: false }

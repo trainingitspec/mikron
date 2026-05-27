@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import BlogPage from "@/pages/Blog";
 import BlogPost from "@/pages/BlogPost";
 import ProductsPage from "@/pages/ProductsPage";
+import ReportsPage from "@/pages/ReportsPage";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 function AppContent() {
@@ -31,6 +32,7 @@ function AppContent() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
         </Routes>
       </ErrorBoundary>
       <Footer />
