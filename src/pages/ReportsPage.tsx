@@ -78,16 +78,29 @@ export default function ReportsPage() {
 
       try {
         const data = parseYaml(rawToUse) as Partial<ReportYearData>;
+        let title = data.title;
 
-        // If primary lang file exists but has no documents, fall back
+        // Parse fallback to grab title or documents if missing in primary
+        let fallbackData: Partial<ReportYearData> | null = null;
+        if (fallbackRaw) {
+          try {
+            fallbackData = parseYaml(fallbackRaw) as Partial<ReportYearData>;
+          } catch (e) {
+            console.error("Failed to parse fallback report:", e);
+          }
+        }
+
         let documents = Array.isArray(data.documents) ? data.documents : [];
-        if (documents.length === 0 && fallbackRaw) {
-          const fallbackData = parseYaml(fallbackRaw) as Partial<ReportYearData>;
+        if (documents.length === 0 && fallbackData) {
           documents = Array.isArray(fallbackData.documents) ? fallbackData.documents : [];
         }
 
-        if (data.title && documents.length > 0) {
-          parsedData.push({ title: data.title, documents });
+        if (!title && fallbackData) {
+          title = fallbackData.title;
+        }
+
+        if (title && documents.length > 0) {
+          parsedData.push({ title, documents });
         }
       } catch (err) {
         console.error("Failed to parse report:", err);
