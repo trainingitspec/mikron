@@ -41,7 +41,7 @@ When creating MikronOS Mobile, we abandoned overloaded interfaces and complex me
 
 Forget about sending files to yourself in messengers. Thanks to the built-in cloud core, your PC running MikronOS and your smartphone with MikronOS Mobile work as a single organism. The browser remembers your tabs, and the mail and file manager are updated in real time.
 
-![mikron os mobile](/uploads/mikronos-mobile.png "Операційна система для мобільних пристроїв")
+![mikron os mobile](/uploads/mikronos-mobile.png "Operation system for mobile smartphone and tablet")
 
 ### Productivity without compromise
 
