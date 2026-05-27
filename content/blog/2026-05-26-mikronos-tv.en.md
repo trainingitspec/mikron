@@ -7,6 +7,11 @@ excerpt: Екосистема MikronOS офіційно виходить на в
   представити MikronOS TV — інтелектуальну операційну систему для Smart TV, яка
   перетворює ваш телевізор на справжній центр управління домом, розвагами та
   робочими процесами.
+seo_settings:
+  seo_title: MikronOS TV - the future of TV
+  seo_description: The line between relaxation and productivity is getting
+    thinner. Watch your favorite movies, stay connected, and manage your tasks
+    with maximum comfort.
 ---
 ## Чому MikronOS TV — це більше, ніж просто Smart TV?
 
