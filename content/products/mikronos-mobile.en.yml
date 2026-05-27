@@ -1,6 +1,11 @@
 name: MikronOS Mobile
 price: 14000
-description: "MikronOS Mobile: Your mobile efficiency system. Optimized for smartphones and tablets."
+description: "MikronOS Mobile: Your mobile efficiency system. Optimized for
+  smartphones and tablets."
 image: /uploads/mikronos-mobile.png
 category: Operating Systems
 featured: true
+seo_settings:
+  seo_title: MikronOS Mobile - optimized for smartphones and tablets.
+  seo_description: "MikronOS Mobile: A mobile productivity operating system.
+    Optimized for smartphones and tablets."

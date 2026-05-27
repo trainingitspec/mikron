@@ -1,6 +1,12 @@
 name: MikronOS Mobile
 price: 14000
-description: "MikronOS Mobile: Система вашої мобільної ефективності. Оптимізована для смартфонів та планшетів."
+description: "MikronOS Mobile: Система вашої мобільної ефективності.
+  Оптимізована для смартфонів та планшетів."
 image: /uploads/mikronos-mobile.png
 category: Операційні системи
 featured: true
+seo_settings:
+  seo_title: MikronOS Mobile - оптимізована для смартфонів та планшетів.
+  seo_description: "MikronOS Mobile: Операційна система мобільної продуктивності.
+    Оптимізована для смартфонів та планшетів."
+  seo_image: /uploads/mikronos-mobile.png
